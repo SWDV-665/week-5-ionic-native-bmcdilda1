@@ -46,6 +46,16 @@ export class HomePage {
     this.items.splice(index, 1);
   }
 
+  editItem(item, index) {
+    console.log("Edit Item - ", item, index);
+    const toast = this.toastCtrl.create({
+      message: 'Editing Item - ' + index + " ...",
+      duration: 3000
+    });
+    toast.present();
+    this.showEditItemPrompt(item, index);
+  }  
+
   addItem() {
     console.log("Adding Item");
     this.showAddItemPrompt();
@@ -83,5 +93,40 @@ export class HomePage {
     });
     prompt.present();
   }
+
+  showEditItemPrompt(item, index) {
+    const prompt = this.alertCtrl.create({
+      title: 'Edit Item',
+      message: "Please edit item...",
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: item.name
+        },
+        {
+          name: 'quantity',
+          placeholder: 'Quantity',
+          value: item.quantity
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: item => {
+            console.log('Saved clicked', item);
+            this.items[index] = item;
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }  
 
 }
